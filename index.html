@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>A3RTというTalkAPIを使用したチャットボット</title>
+  <meta name="description" content="Chat With A3RT TalkAPI">
+</head>
+
+<body>
+  <div id="chatA3RT">
+    <section class="キャラ選択" v-if="flag">
+      <h2>チャット相手を選ぼう！</h2>
+      <br>
+      <template>
+        <table align="center">
+          <div id="app">
+            <tr v-for="N in 2" :kye="N">
+              <td v-for="n in 4" :key="n">
+                <button @click="category(n-1+N*4-4)" type="button" name="jocelyn" value="value">
+                  <img v-bind:src="myImage[n-1+N*4-4]">
+                </button>
+                <p>{{charaname[n-1+N*4-4]}}「…{{gobi[n-1+N*4-4]}}」</p>
+              </td>
+            </tr>
+          </div>
+        </table>
+      </template>
+    </section>
+
+    <section v-else>
+      <table>
+        <tr>
+          <td>
+            <img v-bind:src="myImage[charanumber]">
+          </td>
+          <td>
+            <h2>{{charaname[charanumber]}}とのチャット</h2>
+          </td>
+        </tr>
+      </table>
+      <ul>
+        <li v-for="t in talks" :key="t.id" v-bind:class="['todo-default', t.isBackColor ? 'back-color' : '']" width=300>
+          {{t.text}}
+        </li>
+      </ul>
+      <br>
+      <input type="text" v-model="talk" placeholder="ここにメッセージを入力してね！">
+      <button type="button" v-on:click="talkSubmit" v-bind:style="buttonStyle">送信</button>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    let app = new Vue({
+      el: '#chatA3RT',
+      data: {
+        buttonStyle: {
+          width: '60px',
+          height: '60px'
+        },
+        flag: true,
+        talk: '',
+        charaname: ['jocelyn', 'jenni', 'jess', 'julie', 'joe', 'jon', 'jack', 'jude'],
+        gobi: ['ざます', 'ですの', 'アル', 'だわさ', 'っス', 'であります', 'でごわす', 'でござる'],
+        charanumber: 0,
+        myImage: ['https://joeschmoe.io/api/v1/jocelyn',
+          'https://joeschmoe.io/api/v1/jenni',
+          'https://joeschmoe.io/api/v1/jess',
+          'https://joeschmoe.io/api/v1/julie',
+          'https://joeschmoe.io/api/v1/joe',
+          'https://joeschmoe.io/api/v1/jon',
+          'https://joeschmoe.io/api/v1/jack',
+          'https://joeschmoe.io/api/v1/jude'
+        ],
+        talks: []
+      },
+      methods: {
+        category: function(number) {
+          this.charanumber = number;
+          this.flag = false;
+        },
+        talkSubmit: function() {
+          this.talks.push({
+            id: this.talks.length,
+            text: 'you: ' + this.talk,
+            doing: false,
+            isBackColor: false
+          })
+          let params = new URLSearchParams();
+          params.append('apikey', 'Your_API_KEY');
+          params.append('query', this.talk);
+          axios.post('https://api.a3rt.recruit-tech.co.jp/talk/v1/smalltalk', params)
+            .then(response => {
+              this.talks.push({
+                id: this.talks.length,
+                text: this.charaname[this.charanumber] + ': ' +
+                  response.data.results[0].reply
+                  .replace('です', this.gobi[this.charanumber])
+                  .replace('こんにちは', 'こんにちは' + this.gobi[this.charanumber])
+                  .replace('ございます', this.gobi[this.charanumber])
+                  .replace('こんばんは', 'こんばんは' + this.gobi[this.charanumber])
+                  .replace('しましょう', 'する' + this.gobi[this.charanumber])
+                  .replace('みませんか', 'まない' + this.gobi[this.charanumber] + '？')
+                  .replace('ますか', 'る' + this.gobi[this.charanumber] + 'か'),
+                doing: true,
+                isBackColor: true
+              })
+              console.log(response.data);
+            }).catch(error => {
+              console.log(error);
+            });
+          this.talk = ""
+        }
+      }
+    })
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+html {
+    color: teal;
+    background: mintcream;
+  }
+
+  h2 {
+    padding-top: 30px;
+    padding-bottom: 20px;
+  }
+
+  body {
+    text-align: center;
+    margin: 20px;
+
+  }
+
+  button {
+    outline: 0;
+    width: 150px;
+    height: 150px;
+    background-color: white;
+    border-radius: 50%;
+    border-color: darkturquoise;
+    color: teal;
+  }
+
+  img {
+    padding-bottom: 20px;
+    width: 100px;
+  }
+
+  table {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  td {
+    width: 250px;
+  }
+
+  tr {
+    height: 200px;
+  }
+
+  ul {
+    list-style: none;
+    width: 700px;
+    height: 400px;
+    overflow-y: scroll;
+    display: inline-block;
+    border: 2px solid darkturquoise;
+    padding-left: 0;
+  }
+
+  li {
+    background-color: aliceblue;
+    border-bottom: 1px solid darkturquoise;
+    padding-left: -100px;
+  }
+
+  .todo-default {
+    background-color: paleturquoise;
+    padding-left: auto;
+    padding-right: auto;
+    background-size: contain 300px;
+    padding: 5px;
+  }
+
+
+  .back-color {
+    padding-top: -30px;
+    background-color: white;
+  }
+
+  input {
+    border-color: darkturquoise;
+    outline-color: darkturquoise;
+    width: 400px;
+    height: 30px;
+    padding-right: 100px;
+    font-size: 15px;
+    color: teal;
+  }
