@@ -41,7 +41,7 @@
         </tr>
       </table>
       <p　width=700>* index.html内の「XXXXXXX」のところに、あなたが取得したAPI key（A3RTのTalkAPI）を入力すれば、返信がきます。</p>
-      <p>このプログラミングでは、APIkeyが「XXXXXXX」と入力されているので返信はきません。</p>
+      <p>このプログラミングではセキュリティの関係上、API keyの部分を「XXXXXXX」としているので返信はきません。</p>
       <ul>
         <li v-for="t in talks" :key="t.id" v-bind:class="['todo-default', t.isBackColor ? 'back-color' : '']" width=300>
           {{t.text}}
